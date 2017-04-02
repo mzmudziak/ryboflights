@@ -1,19 +1,52 @@
-const request = require('request');
-const _ = require('lodash');
-const config = require('./config');
+'use strict';
+
+var request = require('request');
+var _ = require('lodash');
+var config = require('./config');
+var request_promise = require('request-promise');
+var fs = require('fs');
 
 (function () {
-    console.log('Full API key: ' + config.api_key);
-    console.log('Short API key: ' + config.api_short_key);
+    console.log(config);
 })();
 
-request.get(
-    {
-        url: config.host,
-        apiKey: config.api_short_key
-    },
-    function (error, response, body) {
-        console.log('error:', error);
-        console.log('statusCode:', response && response.statusCode);
+
+
+
+var request = require('request');
+
+var options = {
+    uri: config.bin_post + '?key=' + config.google_api_key,
+    method: 'POST',
+    json: true,
+    body: {
+        request: {
+            passengers: {
+                'adultCount': config.passengers_amount
+            },
+            slice: [
+                {
+                    'origin': 'WAW',
+                    'destination': 'DPS',
+                    'date': '2017-09-05'
+                }
+            ],
+            'solutions': 50
+        }
+    }
+}
+
+request.post(options, function (error, response, body) {
+    console.log(error);
+
+    console.log(response);
+
+    var fileName = new Date().toUTCString().replace(/T/, '-').replace(/\..+/, '') + '-response.json';
+    fs.writeFile(fileName, JSON.stringify(response, null, 4), function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        console.log('The file was saved to: ' + fileName);
     });
+});
 

@@ -9,7 +9,12 @@
   "author": "Michal Zmudziak",
   "license": "MIT",
   "dependencies": {
+    "fs": "0.0.1-security",
+    "googleapis": "^18.0.0",
     "lodash": "^4.17.4",
-    "request": "^2.81.0"
+    "morgan": "^1.8.1",
+    "needle": "^1.6.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0"
   }
 }
